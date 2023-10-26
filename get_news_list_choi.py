@@ -1,3 +1,7 @@
+# 폴더 연결 설정 하기
+# 레파지토리 주소 : https://github.com/projectCHOI/S-1_volume.git
+
+#cys-for
 import requests
 from bs4 import BeautifulSoup
 import csv
