@@ -69,4 +69,4 @@ def get_news_list(keyword, start_date, end_date):
     return News
 
 
-print(get_news_list("에스원", "2023.10.24", "2023.10.24"))
+print(get_news_list("에스원", "2023.10.26", "2023.10.26"))
