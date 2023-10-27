@@ -1,64 +1,57 @@
 import requests
-from bs4 import BeautifulSoup
-import csv
 import pandas as pd
+from bs4 import BeautifulSoup
 
-def get_news(URL):
-    res = requests.get(URL)
-    soup = BeautifulSoup(res.text, 'html.parser')
+def get_news_list(keyword, startdate, enddate, max_pages=50):
+    li = []
+    h = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36'}
 
-    title_element = soup.select_one('h2#title_area > span')
-    if title_element:
-        title = title_element.text
-    else:
-        title = "Title not found"
-
-    content_element = soup.select_one('article#dic_area')
-    if content_element:
-        content = content_element.text.strip()
-    else:
-        content = "Content not found"
-
-    date_element = soup.select_one('span._ARTICLE_DATE_TIME')
-    if date_element and 'data-date-time' in date_element.attrs:
-        date = date_element['data-date-time']
-    else:
-        date = "Date not found"
-
-    return (title, date, content)
-
-def get_news_list(keyword, startdate, enddate):
-    file = open("s1-23-4.csv", mode="w", encoding="utf-8", newline="")
-    writer = csv.writer(file)
-
-    headers = {
-        'Cookie': 'NNB=NOAWMWOS2LXGI; nx_ssl=2; _naver_usersession_=U/xBSxXXxIO1prOM6PxioQ==; page_uid=id0GBlp0Jywss7BI5SNssssstuN-197031',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
-        'Referer': 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query=%ED%85%8C%EC%8A%AC%EB%9D%BC&sort=1&photo=0&field=0&pd=3&ds=2023.09.21&de=2023.09.21&mynews=0&office_type=0&office_section_code=0&news_office_checked=&office_category=0&service_area=0&nso=so:dd,p:from20230921to20230921,a:all&start=91'
-    }
-
-    for nowdate in pd.date_range(startdate, enddate):
-        nowdate = str(nowdate).replace('-', '.').split()[0]
+    for d in pd.date_range(startdate, enddate):
+        str_d = d.strftime("%Y.%m.%d")
         page = 1
+        print(str_d)
 
         while True:
-            start = (page - 1) * 30 + 1
-            URL = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=3&ds={}&de={}&mynews=0&office_type=0&office_section_code=0&news_office_checked=&office_category=0&service_area=0&nso=so:dd,p:from{}to{},a:all&start={}'.format(
-                keyword, nowdate, nowdate, nowdate.replace('.', ''), nowdate.replace('.', ''), start)
-            res = requests.get(URL, headers=headers)
-            soup = BeautifulSoup(res.text, 'html.parser')
+            start = (page - 1) * 10 + 1
+            print(page)
+            URL = "https://search.naver.com/search.naver?where=news&sm=tab_pge&query={0}&sort=2&photo=0&field=0&pd=3&ds={1}&de={2}&mynews=0&office_type=0&office_section_code=0&news_office_checked=&office_category=0&service_area=0&nso=so:r,p:from{3}to{4},a:all&start={5}".format(keyword, startdate, enddate, startdate.replace(".", ""), enddate.replace(".", ""), start)
 
-            if not soup.select('ul.list_news'):
+            try:
+                res = requests.get(URL, headers=h)
+                res.raise_for_status()  # Raise an error for bad HTTP responses
+                soup = BeautifulSoup(res.text, "html.parser")
+
+                if soup.select_one(".api_noresult_wrap") or page > max_pages:
+                    break
+
+                news_list = soup.select("ul.list_news li")
+
+                for item in news_list:
+                    if len(item.select("div.info_group a")) >= 2:
+                        title = item.select_one("a.news_tit").text
+                        date = item.select_one("span.info").text
+#                        media = item.select_one("a.info.press").text
+                        content = item.select_one("div.news_dsc").text
+#                        url = item.select_one("a.news_tit")['href']
+                        li.append({'title': title, 'date': date, 'content': content})
+                page = page + 1
+            except requests.exceptions.RequestException as e:
+                print(f"Error fetching data for date {str_d}: {e}")
                 break
 
-            for li in soup.select('ul.list_news > li'):
-                if len(li.select('div.info_group > a')) == 2:
-                    news_url = li.select('div.info_group > a')[1]['href']
-                    news_data = get_news(news_url)
-                    writer.writerow(news_data)
+    df = pd.DataFrame(li, columns=['title', 'date', 'content'])
+    return df
 
-            page += 1
+# 사용자 입력 받기
+keyword = input("찾는 keyword를 알려주세요: ")
+startdate = input("시작하는 날을 알려주세요 ex) 2020.12.12: ")
+enddate = input("끝나는 날을 알려주세요 ex) 2020.12.12: ")
+max_pages = int(input("끝나는 페이지는 몇으로 할까요?: "))
 
-    file.close()
+# 함수 호출 결과를 변수에 할당
+result = get_news_list(keyword, startdate, enddate, max_pages=max_pages)
 
-get_news_list('에스원', '2023.04.01', '2023.04.30')
+# Save the DataFrame to a CSV file
+csv_filename = input("원하는 CSV 파일명을 입력하세요: ")
+result.to_csv(csv_filename, index=False, encoding='utf-8-sig')
+print(f"데이터가 {csv_filename} 파일로 저장되었습니다.")
