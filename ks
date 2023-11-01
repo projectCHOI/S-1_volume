@@ -1,4 +1,4 @@
-용어 (계속 업데이트 하겠습니다.)
+용어 정리 (계속 업데이트 하겠습니다.)
 **High Quality Topic Extraction from Business News Explains Abnormal Financial Market Volatility**
 
 (비즈니스 뉴스에서 고품질 주제 추출이 이상한 금융 시장 변동성을 설명한다)
