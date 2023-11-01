@@ -1,3 +1,51 @@
+용어 (계속 업데이트 하겠습니다.)
+**High Quality Topic Extraction from Business News Explains Abnormal Financial Market Volatility**
+
+(비즈니스 뉴스에서 고품질 주제 추출이 이상한 금융 시장 변동성을 설명한다)
+
+1. Financial market volatility - refers to the degree of variation of a financial market's price over time.
+2. Topic modeling - a statistical method used to identify topics or themes in a collection of texts.
+3. JSD metric - Jensen-Shannon divergence metric, a measure of similarity between two probability distributions.
+4. Word distribution - the frequency of occurrence of words in a text or a collection of texts.
+5. FVE - Fraction of Variance Explained, a measure of how much of the variation in a dataset is explained by a particular factor or topic.
+6. Panel - a graphical representation of data or information, often used in scientific research.
+7. Merger and acquisition - the process of combining two or more companies into a single entity.
+8. Bond credit rating - a measure of the creditworthiness of a bond issuer, based on its financial strength and ability to repay its debts.
+9. Insider trading - the illegal practice of trading on the stock market using non-public information.
+10. SEC - Securities and Exchange Commission, a US government agency responsible for regulating the securities industry.
+11. Recall - the process of removing a defective product from the market.
+12. Natural disaster - a catastrophic event caused by natural forces, such as a hurricane, earthquake, or flood.
+13. BP oil spill - a major oil spill that occurred in the Gulf of Mexico in 2010, caused by an explosion on the Deepwater Horizon oil rig.
+14. Global recession - a period of economic decline affecting multiple countries or regions.
+15. Earning reports - financial statements released by companies that provide information on their financial performance.
+16. Retailers profits - the amount of money earned by retailers from selling goods or services.
+17. New products - products that are newly introduced to the market.
+18. Legislation/Regulation/Bill - laws or regulations that govern the behavior of individuals or organizations in a particular industry or sector.
+19. Takeover - the acquisition of one company by another, often through the purchase of a controlling stake in the target company.
+
+1. 금융 시장 변동성 - 금융 시장 가격의 시간에 따른 변화 정도를 나타냅니다.
+2. 토픽 모델링 - 텍스트 또는 텍스트 집합에서 주제나 테마를 식별하는 통계적 방법입니다.
+3. JSD 지표 - Jensen-Shannon divergence 지표로, 두 확률 분포 간의 유사성을 측정하는 방법입니다.
+4. 단어 분포 - 텍스트 또는 텍스트 집합에서 단어의 출현 빈도를 나타냅니다.
+5. FVE - Fraction of Variance Explained로, 특정 요인이나 토픽이 데이터 집합의 얼마나 많은 변동성을 설명하는지를 나타내는 지표입니다.
+6. 패널 - 데이터나 정보를 그래픽으로 나타낸 것으로, 과학 연구에서 자주 사용됩니다.
+7. 합병과 인수 - 두 개 이상의 회사를 하나의 단일 엔티티로 합치는 과정입니다.
+8. 채권 신용 등급 - 채권 발행자의 신용도를 나타내는 지표로, 재무적 강도와 부채 상환 능력을 기반으로 합니다.
+9. 내부자 거래 - 비공개 정보를 이용하여 주식 시장에서 거래하는 불법적인 행위입니다.
+10. SEC - Securities and Exchange Commission으로, 미국 정부 기관으로서 증권 산업을 규제합니다.
+11. 제품 리콜 - 결함된 제품을 시장에서 회수하는 과정입니다.
+12. 자연 재해 - 허리케인, 지진, 홍수 등과 같이 자연적인 힘에 의해 발생하는 대형 재해를 말합니다.
+13. BP 유출 사고 - 2010년 멕시코 만에서 발생한 대규모 유출 사고로, 딥워터 호라이즌 유전 시설에서 발생한 폭발로 인해 발생했습니다.
+14. 세계적 경기 침체 - 여러 나라나 지역에 영향을 미치는 경제적 하락 기간을 말합니다.
+15. 수익 보고서 - 기업이 발표하는 재무 성과에 대한 정보를 제공하는 재무 보고서입니다.
+16. 소매업자 이익 - 소매업자가 상품이나 서비스를 판매하여 얻는 수익을 말합니다.
+17. 새로운 제품 - 시장에 새롭게 출시된 제품을 말합니다.
+18. 법규제/규정/법안 - 특정 산업이��� 분야에서 개인이나 조직의 행동을 규제하는 법률이나 규정을 말합니다.
+19. 인수합병 - 한 회사가 다른 회사를 인수하는 과정으로, 대상 회사의 지배 지분을 구매하는 것이 일반적입니다.
+
+
+
+________________________________________________________________________________________________________________________
 # 2018_2023.csv 를 한나눔 토픽모델링 k fold 라쏘회귀파라미터 함
 import pandas as pd
 import re
