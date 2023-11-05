@@ -1,3 +1,5 @@
+#LDA 구글 환경 최적화임.
+
 import gensim  # 자연어 처리 및 토픽 모델링을 위한 라이브러리입니다.
 from gensim import corpora  # 텍스트 문서의 코퍼스
 import pandas as pd  # Pandas 라이브러리를 'pd' 
