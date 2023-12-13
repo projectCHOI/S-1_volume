@@ -39,3 +39,60 @@ mse = mean_squared_error(y_test, y_pred)
 mae = mean_absolute_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f'CV: {cv}, MSE: {mse}, MAE: {mae}, R^2: {r2}')
+
+##
+##
+
+###### (뉴스량, 거래량) 시각화
+plt.scatter(X, y, label='true data', color='blue')
+plt.plot(X, y_pred, label='regression line', color='red')
+plt.xlabel('news volume')
+plt.ylabel('trading volume')
+plt.title(f'correlationship between topic{topicNo} news volume and trading volume')
+plt.legend()
+plt.show()
+
+###### 시계열로 시각화
+plt.plot(date, y, label='true volume', color='blue')
+plt.plot(date, y_pred, label='predicted volume', color='red')
+plt.xlabel('news volume')
+plt.ylabel('trading volume')
+plt.title(f'topic{topicNo} predicted trading volume')
+plt.legend()
+plt.show()
+  
+##for문으로 저장
+# y절편
+intercept = lasso_model.intercept_
+intercept
+     
+topic_list = [1,2,3,4,6,7,9,10,11,14,15,16,19,20,21,28,33,35,39,44,47,49]
+
+for topicNo in topic_list :
+
+  topic = pd.read_csv(f'/content/drive/MyDrive/SK하이닉스/07. LASSO 회귀/토픽별 일간 기사량/topic{topicNo}_newsvolume.csv')
+  topic = pd.merge(stock, topic, how='left')
+  topic = topic.fillna(0)
+
+  # 정규화
+  scaler = MinMaxScaler()
+  topic['news_volume_scaled'] = scaler.fit_transform(topic['news_volume'].values.reshape(-1, 1))
+  stock['trading_volume_scaled'] = scaler.fit_transform(stock['trading_volume'].values.reshape(-1, 1))
+
+  # x : 기사량, y : 거래량
+  X = topic['news_volume_scaled'].values.reshape(-1, 1)
+  y = stock['trading_volume_scaled'].values.reshape(-1, 1)
+
+  y_pred = lasso_model.predict(X)
+  print(f'topic{topicNo} 예측된 y :', y_pred)
+  topic['pred_trading_vol_scaled'] = y_pred
+
+  # 평가 지표 계산
+  mse = mean_squared_error(y, y_pred)
+  mae = mean_absolute_error(y, y_pred)
+  r2 = r2_score(y, y_pred)
+  print('mse, mae, r2 :', mse, mae, r2)
+  print()
+
+  # 저장
+  # topic.to_csv(f'/content/drive/MyDrive/SK하이닉스/07. LASSO 회귀/토픽별 일간 예측된 거래량/topic{topicNo}_pred_volume.csv', index=False)
